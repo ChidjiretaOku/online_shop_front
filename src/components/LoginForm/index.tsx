@@ -28,9 +28,9 @@ const LoginForm: React.FC = () => {
                 borderWidth: '2px',
                 borderRadius: '5px',
                 alignItems: 'center',
-                width: '50%',
+                width: '70ch',
                 '& .MuiTextField-root': {
-                    width: '90%',
+                    width: '100%',
                     margin: theme.spacing(1),
                 },
             },
@@ -62,12 +62,11 @@ const LoginForm: React.FC = () => {
                     value={password}
                     onChange={(event) => dispatch(changePassword(event.target.value))}
                 /></div>
-
-                <Button color="secondary" variant='contained'
-                        onClick={
-                            () => {
-                                dispatch(loginUser({email, password}));
-                            }}>Войти</Button>
+                <div><Button color="secondary" variant='contained'
+                             onClick={
+                                 () => {
+                                     dispatch(loginUser({email, password}));
+                                 }}>Войти</Button></div>
             </div>
         </form>
 
