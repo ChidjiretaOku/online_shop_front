@@ -4,6 +4,7 @@ import {isOpen} from "@blueprintjs/core/lib/esnext/components/context-menu/conte
 
 // Define a type for the slice state
 interface NavBarState {
+  isCategoriesOpen: boolean
   isDrawerOpen: boolean
   isMenuOpen: boolean
   isMobileMenuOpen: boolean
@@ -11,6 +12,7 @@ interface NavBarState {
 
 // Define the initial state using that type
 const initialState: NavBarState = {
+  isCategoriesOpen: false,
   isDrawerOpen: false,
   isMobileMenuOpen: false,
   isMenuOpen: false
@@ -22,6 +24,9 @@ export const navBarSlice = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
+    categoriesToggle: state => {
+      state.isCategoriesOpen= !state.isCategoriesOpen
+    },
     drawerToggle: state => {
       state.isDrawerOpen= !state.isDrawerOpen
     },
@@ -34,7 +39,7 @@ export const navBarSlice = createSlice({
   }
 })
 
-export const {drawerToggle,menuToggle,mobileMenuToggle} = navBarSlice.actions
+export const {drawerToggle,menuToggle,mobileMenuToggle,categoriesToggle} = navBarSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

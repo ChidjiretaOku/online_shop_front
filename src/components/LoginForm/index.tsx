@@ -20,9 +20,18 @@ const LoginForm: React.FC = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 padding: theme.spacing(1),
+
+            },
+            box: {
+                borderColor: theme.palette.primary.dark,
+                borderStyle: "solid",
+                borderWidth: '2px',
+                borderRadius: '5px',
+                alignItems: 'center',
+                width: '50%',
                 '& .MuiTextField-root': {
+                    width: '90%',
                     margin: theme.spacing(1),
-                    width: '70ch',
                 },
             },
         }),
@@ -34,7 +43,7 @@ const LoginForm: React.FC = () => {
         <form className={classes.root} noValidate autoComplete="off"
               color='primary'>
             <div>{status}</div>
-            <Box>
+            <div className={classes.box}>
                 <div><TextField
                     id="standard-email-input"
                     label="Email"
@@ -59,7 +68,7 @@ const LoginForm: React.FC = () => {
                             () => {
                                 dispatch(loginUser({email, password}));
                             }}>Войти</Button>
-            </Box>
+            </div>
         </form>
 
     )
