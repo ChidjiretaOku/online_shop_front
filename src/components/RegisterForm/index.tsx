@@ -6,6 +6,7 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Routes from "../../pages/routes";
 import {Redirect} from "react-router-dom";
 
+
 const RegisterForm: React.FC = () => {
     const email = useAppSelector(state => state.registerForm.email);
     const username = useAppSelector(state => state.registerForm.username);
