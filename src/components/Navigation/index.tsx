@@ -118,7 +118,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export default function SearchAppBar() {
+export default function NavigationSearchBar() {
     const classes = useStyles();
     const dispatch = useAppDispatch()
     const theme = useTheme();
