@@ -1,11 +1,7 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import React from 'react';
 
-export interface props {
-    text: string;
-}
-
-const BigHeaderBar: React.FC = ({children}) => {
+const BigHeaderBar: React.FC<{message:string}> = ({message}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -21,7 +17,7 @@ const BigHeaderBar: React.FC = ({children}) => {
                 paddingTop: theme.spacing(5),
                 backgroundColor: theme.palette.primary.dark,
                 color: theme.palette.primary.contrastText,
-                fontSize: "40",
+                fontSize: "72",
             },
         }),
     )
@@ -31,7 +27,7 @@ const BigHeaderBar: React.FC = ({children}) => {
 
     return (
         <div className={classes.root}>
-            <h1>{children}</h1>
+            {message}
         </div>
     )
 }
