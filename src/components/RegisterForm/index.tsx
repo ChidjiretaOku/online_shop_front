@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeEmail, changePassword, changeUsername ,registerUser} from './@slice';
-import {Button, TextField, Box} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Routes from "../../pages/routes";
 import {Redirect} from "react-router-dom";
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
     const email = useAppSelector(state => state.registerForm.email);
     const username = useAppSelector(state => state.registerForm.username);
     const password = useAppSelector(state => state.registerForm.password);
@@ -75,4 +75,4 @@ const LoginForm: React.FC = () => {
     )
 }
 
-export default LoginForm;
+export default RegisterForm;
