@@ -17,7 +17,7 @@ export interface ITeaItem {
     "photos": any,
 }
 
-const TeaItem: React.FC<{ tea: ITeaItem }> = ({tea}) => {
+const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -39,7 +39,7 @@ const TeaItem: React.FC<{ tea: ITeaItem }> = ({tea}) => {
                 height: 140,
             },
             card:{
-                maxWidth: 300,
+                width: "100%",
             },
         }),
     )
@@ -52,17 +52,17 @@ const TeaItem: React.FC<{ tea: ITeaItem }> = ({tea}) => {
                 <CardMedia
                     className={classes.media}
                     image="/static/images/cards/contemplative-reptile.jpg"
-                    title={tea.name}
+                    title={name}
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {tea.name}
+                        {name}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {tea.description}
+                        {description}
                     </Typography>
                     <Typography variant="h6" color="textPrimary" component="p">
-                        ${tea.price}
+                        ${price}
                     </Typography>
                 </CardContent>
             </CardActionArea>

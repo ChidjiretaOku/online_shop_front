@@ -11,7 +11,7 @@ const BigHeaderBar: React.FC<{message:string}> = ({message}) => {
                 justifyContent: "center",
                 width: "auto",
                 minWidth: "auto",
-                maxWidth: "60%",
+                maxWidth: "100%",
                 borderRadius: "5px",
                 paddingBottom: theme.spacing(5),
                 paddingTop: theme.spacing(5),

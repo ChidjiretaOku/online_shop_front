@@ -1,25 +1,32 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import React from 'react';
+import React, {useEffect} from 'react';
 import TeaItem, {ITeaItem} from "../TeaItem ";
 import {List, ListItem} from "@material-ui/core";
+import s from './TeaList.module.scss';
+import {getTeas} from "./@slice";
+import {useAppDispatch, useAppSelector} from "../../hooks";
 
-export interface ITeaList {
-    list: any
-}
 
-const TeaList: React.FC<{ list: ITeaList }> = ({list}) => {
+
+const TeaList: React.FC = () => {
+
+    const dispatch = useAppDispatch();
+
+    const teaList = useAppSelector(state => state.teaList.teaList);
+
+    useEffect(() => {
+        dispatch(getTeas());
+    }, [dispatch, teaList]);
 
     return (
-        <List>
-            {/*{list.list.map((listItem, index) => {*/}
-            {/*    let tea : ITeaItem = listItem;*/}
-
-            {/*    return(*/}
-            {/*    <ListItem key={index}>*/}
-            {/*        <TeaItem tea={tea}/>*/}
-            {/*    </ListItem>*/}
-            {/*    )}*/}
-            {/*)}*/}
-        </List>
+        <div className={s.root}>
+            <div className={s.centering}>
+                {
+                teaList.map((item) =>
+                    <TeaItem  name={item.name}  count={item.count} description={item.description} id={item.id} photos={item.photos} price={item.price}/>)}
+            </div>
+        </div>
     )
 }
+
+export default TeaList;
