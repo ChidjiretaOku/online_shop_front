@@ -34,7 +34,7 @@ export const loginUser = createAsyncThunk(
             body: JSON.stringify({email: data.email, password: data.password}),
             method: 'POST',
         };
-        const response = await fetchData('/auth/login/', postOptions);
+        const response = await fetchData('api/login/', postOptions);
         return await (response.json()) as Response;
         // localStorage.setItem("token", res.message.token);
 

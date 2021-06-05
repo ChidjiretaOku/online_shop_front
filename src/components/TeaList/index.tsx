@@ -26,7 +26,7 @@ const TeaList: React.FC = () => {
                     <TeaItem  name={item.name}  count={item.count} description={item.description} id={item.id} photos={item.photos} price={item.price}/>)}
             </div>
         </div>
-    )
+    );
 }
 
 export default TeaList;

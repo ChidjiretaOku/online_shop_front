@@ -7,18 +7,21 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {fetchAuthData} from "../../utils/API";
 
-export interface ITeaItem {
-    "id": number,
-    "name": string,
-    "description": string | null,
-    "price": number,
-    "count": number,
-    "photos": any,
+export interface IOrderItem {
+    id: number;
+    user_id: number;
+    first_name: string;
+    surname: string;
+    phone: string;
+    address: string,
+    price: number,
+    count: number,
+    date: string,
+    status: number
 }
 
-const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
+const OrderItem: React.FC<IOrderItem> = ({id, user_id , first_name, surname, phone, address, price, count, date, status}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -50,40 +53,20 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos
     return (
         <Card className={classes.card}>
             <CardActionArea>
-                <CardMedia
-                    className={classes.media}
-                    title={name}
-                />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
-                        {name}
+                        {date}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {description}
+                        {price}
                     </Typography>
                     <Typography variant="h6" color="textPrimary" component="p">
-                        ${price}
+                        {status}
                     </Typography>
                 </CardContent>
             </CardActionArea>
-            <CardActions>
-                <Button size="small" color="secondary" variant="outlined" onClick={() => {
-                    fetchAuthData('api/cart/add', {method: 'POST',
-                        headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})});
-                }}>
-                    Add in cart
-                </Button>
-                <Button size="small" color="secondary" variant="outlined" onClick={() => {
-                    fetchAuthData('api/favorites/follow', {method: 'POST',
-                        headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})});
-                }}>
-                    Add in favorites
-                </Button>
-            </CardActions>
         </Card>
     );
 }
 
-export default TeaItem;
+export default OrderItem;

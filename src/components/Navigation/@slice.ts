@@ -1,6 +1,4 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RootState} from '../../store'
-import {isOpen} from "@blueprintjs/core/lib/esnext/components/context-menu/contextMenu";
 
 // Define a type for the slice state
 interface NavBarState {

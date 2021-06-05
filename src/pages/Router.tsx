@@ -4,10 +4,12 @@ import Routes from "./routes";
 
 import {Root} from "./Root";
 import {Login} from "./Login";
-import {CounterPage} from './Counter';
-import News from './News';
 import {TestPage} from "./TestPage"
 import {Register} from "./Register";
+import {Order} from "./Order"
+import {Profile} from "./Profile"
+import {cart} from "./Cart"
+import {favorite} from "./Favorite"
 
 export const Router: React.FC = () => {
   return(
@@ -17,8 +19,10 @@ export const Router: React.FC = () => {
           <Route exact path={Routes.ROOT} component={Root}/>
           <Route exact path={Routes.LOGIN} component={Login}/>
           <Route exact path={Routes.REGISTER} component={Register}/>
-          <Route exact path={Routes.COUNTER} component={CounterPage}/>
-          <Route exact path={Routes.NEWS} component={News}/>
+          <Route exact path={Routes.ORDER} component={Order}/>
+          <Route exact path={Routes.PROFILE} component={Profile}/>
+          <Route exact path={Routes.CART} component={cart}/>
+          <Route exact path={Routes.FAVORITE} component={favorite}/>
           <Route exact path={Routes.TEST} component={TestPage}/>
         </Switch>
       </React.Suspense>

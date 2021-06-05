@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {fetchAuthData} from "../../utils/API";
+import {fetchAuthData, fetchData} from "../../utils/API";
 
 export interface ITeaItem {
     "id": number,
@@ -18,7 +18,7 @@ export interface ITeaItem {
     "photos": any,
 }
 
-const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
+const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -52,6 +52,7 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
+                    image="/static/images/cards/contemplative-reptile.jpg"
                     title={name}
                 />
                 <CardContent>
@@ -62,28 +63,21 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos
                         {description}
                     </Typography>
                     <Typography variant="h6" color="textPrimary" component="p">
-                        ${price}
+                        {price}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <CardActions>
                 <Button size="small" color="secondary" variant="outlined" onClick={() => {
-                    fetchAuthData('api/cart/add', {method: 'POST',
-                        headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})});
-                }}>
-                    Add in cart
-                </Button>
-                <Button size="small" color="secondary" variant="outlined" onClick={() => {
-                    fetchAuthData('api/favorites/follow', {method: 'POST',
-                        headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})});
-                }}>
-                    Add in favorites
+                    fetchAuthData('api/favorites/remove', {method: 'POST',
+                    headers: {'accept': '*/*', 'Content-Type': 'application/json'},
+                    body: JSON.stringify({article_id: id})});
+                    }}>
+                    Delete
                 </Button>
             </CardActions>
         </Card>
     );
 }
 
-export default TeaItem;
+export default ArticleItem;

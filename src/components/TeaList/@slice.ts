@@ -3,7 +3,7 @@ import {fetchData} from "../../utils/API";
 
 interface TeasState {
     isLoading: boolean
-    teaList: Array<ITeaItem>
+    teaList: Array<ITeaItem>,
 }
 
 export interface ITeaItem {
@@ -21,7 +21,7 @@ export interface Response {
 
 const initialState: TeasState = {
     isLoading: false,
-    teaList: []
+    teaList: [],
 }
 
 export const getTeas = createAsyncThunk(
@@ -33,8 +33,6 @@ export const getTeas = createAsyncThunk(
         const response = await fetchData('api/articles', postOptions);
         return await (response.json()) as Array<ITeaItem>;
     })
-
-
 
 
 const teaListSlice = createSlice({

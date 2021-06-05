@@ -24,12 +24,13 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import { useHistory } from "react-router-dom";
+import {useHistory} from "react-router-dom";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import Collapse from "@material-ui/core/Collapse";
 import {ExpandLess, ExpandMore, Favorite, FreeBreakfast, MenuOpen, Spa} from "@material-ui/icons";
 import Routes from "../../pages/routes";
+import CategoryList from "../CategoryList";
 
 const drawerWidth = 240;
 
@@ -123,12 +124,10 @@ export default function NavigationSearchBar() {
     const dispatch = useAppDispatch()
     const theme = useTheme();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
     const history = useHistory();
 
     const isMenuOpen = useAppSelector(state => state.NavBar.isMenuOpen);
-    const isCategoriesOpen = useAppSelector(state=> state.NavBar.isCategoriesOpen);
-    const isMobileMenuOpen = useAppSelector(state => state.NavBar.isMobileMenuOpen);
+    const isCategoriesOpen = useAppSelector(state => state.NavBar.isCategoriesOpen);
     const isDrawerOpen = useAppSelector(state => state.NavBar.isDrawerOpen);
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -136,27 +135,10 @@ export default function NavigationSearchBar() {
         dispatch(menuToggle());
     };
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-        dispatch(mobileMenuToggle());
-    };
-
     const handleCategoriesClick = () => {
         dispatch(categoriesToggle());
     }
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-        dispatch(menuToggle());
-    };
-
-    const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-        dispatch(mobileMenuToggle());
-    };
-
-    const panelMenuId = 'left-panel-menu';
     const renderPanelMenu = (
         <Drawer
             className={classes.drawer}
@@ -174,7 +156,7 @@ export default function NavigationSearchBar() {
             </div>
             <Divider/>
             <List>
-                <ListItem button onClick={()=>history.push(Routes.ROOT)}>
+                <ListItem button onClick={() => history.push(Routes.ROOT)}>
                     <ListItemIcon><FreeBreakfast/></ListItemIcon>
                     <ListItemText primary={"Каталог"}/>
                 </ListItem>
@@ -186,20 +168,24 @@ export default function NavigationSearchBar() {
                 <Collapse in={isCategoriesOpen} timeout="auto" unmountOnExit>
                     <List component="div" disablePadding>
                         <ListItem button className={classes.nested}>
-                            <ListItemIcon>
-                                <Spa fontSize={"small"}/>
-                            </ListItemIcon>
-                            <ListItemText primary="shitttt" />
+                            <CategoryList/>
                         </ListItem>
                     </List>
                 </Collapse>
-                <ListItem button>
+                <ListItem button onClick={() => history.push(Routes.FAVORITE)}>
                     <ListItemIcon><Favorite/></ListItemIcon>
                     <ListItemText primary={"Избранное"}/>
                 </ListItem>
             </List>
         </Drawer>
     );
+
+    const renderIfLogged = (
+        <div>
+            <MenuItem onClick={() => history.push(Routes.LOGIN)}>Login</MenuItem>
+            <MenuItem onClick={() => history.push(Routes.LOGIN)}>Register</MenuItem>
+        </div>
+    )
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -212,50 +198,50 @@ export default function NavigationSearchBar() {
             open={isMenuOpen}
         >
             <MenuItem onClick={() => dispatch(menuToggle())}>Profile</MenuItem>
-            <MenuItem onClick={() => dispatch(menuToggle())}>My account</MenuItem>
+
         </Menu>
     );
 
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
-        <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-            id={mobileMenuId}
-            keepMounted
-            transformOrigin={{vertical: 'top', horizontal: 'right'}}
-            open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
-            <MenuItem>
-                <IconButton aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="secondary">
-                        <MailIcon/>
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton aria-label="show 11 new notifications" color="inherit">
-                    <Badge badgeContent={11} color="secondary">
-                        <NotificationsIcon/>
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
-            <MenuItem onClick={handleProfileMenuOpen}>
-                <IconButton
-                    aria-label="account of current user"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle/>
-                </IconButton>
-                <p>Profile</p>
-            </MenuItem>
-        </Menu>
-    );
+    // const mobileMenuId = 'primary-search-account-menu-mobile';
+    // const renderMobileMenu = (
+    //     <Menu
+    //         anchorEl={mobileMoreAnchorEl}
+    //         anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+    //         id={mobileMenuId}
+    //         keepMounted
+    //         transformOrigin={{vertical: 'top', horizontal: 'right'}}
+    //         open={isMobileMenuOpen}
+    //         onClose={handleMobileMenuClose}
+    //     >
+    //         <MenuItem>
+    //             <IconButton aria-label="show 4 new mails" color="inherit">
+    //                 <Badge badgeContent={4} color="secondary">
+    //                     <MailIcon/>
+    //                 </Badge>
+    //             </IconButton>
+    //             <p>Messages</p>
+    //         </MenuItem>
+    //         <MenuItem>
+    //             <IconButton aria-label="show 11 new notifications" color="inherit">
+    //                 <Badge badgeContent={11} color="secondary">
+    //                     <NotificationsIcon/>
+    //                 </Badge>
+    //             </IconButton>
+    //             <p>Notifications</p>
+    //         </MenuItem>
+    //         <MenuItem onClick={handleProfileMenuOpen}>
+    //             <IconButton
+    //                 aria-label="account of current user"
+    //                 aria-controls="primary-search-account-menu"
+    //                 aria-haspopup="true"
+    //                 color="inherit"
+    //             >
+    //                 <AccountCircle/>
+    //             </IconButton>
+    //             <p>Order</p>
+    //         </MenuItem>
+    //     </Menu>
+    // );
 
     return (
         <div className={classes.grow}>
@@ -288,11 +274,10 @@ export default function NavigationSearchBar() {
                         />
                     </div>
                     <div className={classes.grow}/>
-                    <div className={classes.sectionDesktop}>
-                        <IconButton aria-label="show 2 new notifications" color="inherit">
-                            <Badge badgeContent={2} color="secondary">
-                                <ShoppingCartIcon/>
-                            </Badge>
+                    <div >
+                        <IconButton color="inherit"
+                                    onClick={() => history.push(Routes.CART)}>
+                            <ShoppingCartIcon/>
                         </IconButton>
                         <IconButton
                             edge="end"
@@ -305,20 +290,8 @@ export default function NavigationSearchBar() {
                             <AccountCircle/>
                         </IconButton>
                     </div>
-                    <div className={classes.sectionMobile}>
-                        <IconButton
-                            aria-label="show more"
-                            aria-controls={mobileMenuId}
-                            aria-haspopup="true"
-                            onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
-                            <MoreIcon/>
-                        </IconButton>
-                    </div>
                 </Toolbar>
             </AppBar>
-            {renderMobileMenu}
             {renderMenu}
             {renderPanelMenu}
         </div>

@@ -9,3 +9,14 @@ export const fetchData = (url: string, options: any = {}) => {
     headers,
   }));
 };
+
+export const fetchAuthData = (url: string, options: any = {}) => {
+  const headers = {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    Authorization: `Bearer ${localStorage.getItem('token')}`
+  };
+  return fetch(url, defaultsDeep(options, {
+    headers,
+  }));
+};
