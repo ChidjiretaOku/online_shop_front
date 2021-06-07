@@ -45,6 +45,12 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
 
     const buyCount = useAppSelector(state => state.teaItem.count);
 
+    const [state, setState] = React.useState({
+        toBuyCount: ''
+    })
+
+
+
     return (
         <Card className={classes.card}>
             <CardActionArea>
@@ -76,14 +82,14 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
                         shrink: true,
                     }}
                     variant="outlined"
-                    value={buyCount}
-                    onChange={(event => dispatch(changeCount(event.target.value)))}
+                    value={state.toBuyCount}
+                    onChange={event=> setState({...state, toBuyCount: event.target.value})}
                 />
                 <Button disabled={!count} size="small" color="secondary" variant="outlined" onClick={() => {
                 fetchAuthData('api/cart/add', {
                     method: 'POST',
                     headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                    body: JSON.stringify({article_id: id,count: buyCount})
+                    body: JSON.stringify({article_id: id,count: state.toBuyCount})
                 });
             }}>
                 Add to cart
