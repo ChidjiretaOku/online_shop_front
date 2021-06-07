@@ -14,10 +14,6 @@ export interface ITeaItem {
     "count": number,
     "photos": any,
 }
-export interface Response {
-    type: string;
-    message: Array<ITeaItem>
-}
 
 const initialState: TeasState = {
     isLoading: false,
@@ -45,7 +41,6 @@ const teaListSlice = createSlice({
         builder.addCase(getTeas.rejected, (state) => {
         });
         builder.addCase(getTeas.fulfilled, (state, action) => {
-
             state.teaList = action.payload
         });
     }

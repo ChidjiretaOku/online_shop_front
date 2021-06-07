@@ -26,7 +26,7 @@ const initialState: FavoriteState = {
 }
 
 export const getFavorite = createAsyncThunk(
-    'cart',
+    'favorite',
     async (thunkAPI) => {
         const postOptions = {
             method: 'GET',

@@ -8,11 +8,13 @@ const CategoryList: React.FC = () => {
 
     const dispatch = useAppDispatch();
 
+    const opened = useAppSelector(state => state.NavBar.isCategoriesOpen);
     const categoryList = useAppSelector(state => state.categoryList.categoryList);
+
 
     useEffect(() => {
         dispatch(getCategories());
-    }, [dispatch, categoryList]);
+    }, [opened]);
 
     return (
         <List>

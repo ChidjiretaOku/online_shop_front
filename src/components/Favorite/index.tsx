@@ -7,19 +7,20 @@ import ArticleItem from "../FavoriteItem";
 const Favorite: React.FC = () => {
 
     const dispatch = useAppDispatch();
-
     const favoriteList = useAppSelector(state => state.favorite.favoriteList);
+    const delBtn = useAppSelector(state => state.favoriteItem.clickDelete);
 
     useEffect(() => {
         dispatch(getFavorite());
-    }, [dispatch,  favoriteList]);
+    }, [delBtn]);
 
     return (
         <div className={s.root}>
             <div className={s.centering}>
                 {
                     favoriteList.map((item) =>
-                        <ArticleItem  name={item.name}  count={item.count} description={item.description} id={item.id} photos={item.photos} price={item.price}/>)}
+                        <ArticleItem name={item.name} count={item.count} description={item.description} id={item.id}
+                                     photos={item.photos} price={item.price}/>)}
             </div>
         </div>
     );

@@ -8,6 +8,11 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {fetchAuthData, fetchData} from "../../utils/API";
+import IconButton from "@material-ui/core/IconButton";
+import {FavoriteBorder, ThumbDown} from "@material-ui/icons";
+import theme from "../../themes/main";
+import {clickDelete} from "./@slice";
+import {useAppDispatch} from "../../hooks";
 
 export interface ITeaItem {
     "id": number,
@@ -18,34 +23,24 @@ export interface ITeaItem {
     "photos": any,
 }
 
-const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
+const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, photos}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
-            root: {
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                width: "auto",
-                minWidth: "auto",
-                maxWidth: "60%",
-                borderRadius: "5px",
-                paddingBottom: theme.spacing(5),
-                paddingTop: theme.spacing(5),
-                backgroundColor: theme.palette.primary.dark,
-                color: theme.palette.primary.contrastText,
-                fontSize: "72",
-            },
             media: {
                 height: 140,
             },
-            card:{
+            card: {
                 width: "100%",
             },
         }),
     )
 
     const classes = useStyles();
+    const dispatch = useAppDispatch();
+    const handleDelete = () => {
+        dispatch(clickDelete(id))
+    }
 
     return (
         <Card className={classes.card}>
@@ -63,18 +58,15 @@ const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count,ph
                         {description}
                     </Typography>
                     <Typography variant="h6" color="textPrimary" component="p">
-                        {price}
+                        ${price}
                     </Typography>
                 </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="secondary" variant="outlined" onClick={() => {
-                    fetchAuthData('api/favorites/remove', {method: 'POST',
-                    headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                    body: JSON.stringify({article_id: id})});
-                    }}>
-                    Delete
-                </Button>
+                <IconButton onClick={handleDelete}>
+                    <ThumbDown style={{color:theme.palette.secondary.dark}}/>
+                </IconButton>
+
             </CardActions>
         </Card>
     );

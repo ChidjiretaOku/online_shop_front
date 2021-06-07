@@ -4,7 +4,7 @@ import BigHeaderBar from "../../components/BigHeader";
 import {ThemeProvider} from "@material-ui/core";
 import theme from "../../themes/main";
 import TeaList from "../../components/TeaList";
-import TeaItem, {ITeaItem} from "../../components/TeaItem ";
+import TeaItem, {ITeaItem} from "../../components/TeaItem";
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {getTeas} from "../../components/TeaList/@slice";
 

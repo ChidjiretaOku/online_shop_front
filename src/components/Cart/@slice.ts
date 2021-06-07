@@ -42,7 +42,6 @@ const CartSlice = createSlice({
     extraReducers: builder => {
         builder.addCase(getCart.pending, (state) => {
         });
-
         builder.addCase(getCart.rejected, (state) => {
         });
         builder.addCase(getCart.fulfilled, (state, action) => {

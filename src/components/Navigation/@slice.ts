@@ -1,43 +1,73 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
+import {fetchData} from "../../utils/API";
 
 // Define a type for the slice state
 interface NavBarState {
-  isCategoriesOpen: boolean
-  isDrawerOpen: boolean
-  isMenuOpen: boolean
-  isMobileMenuOpen: boolean
+    isLogged: boolean
+    isCategoriesOpen: boolean
+    isDrawerOpen: boolean
+    isMenuOpen: boolean
+    isMobileMenuOpen: boolean
 }
+
+interface Response {
+    type: string;
+    message: {
+        isLogged: boolean;
+    }
+}
+
+const checkLog = createAsyncThunk(
+    'login/auth',
+    async (data: {}, thunkAPI) => {
+        const postOptions = {
+            body: JSON.stringify({}),
+            method: 'POST',
+        };
+        const response = await fetchData('api/login/', postOptions);
+        return await (response.json()) as Response;
+    })
+
 
 // Define the initial state using that type
 const initialState: NavBarState = {
-  isCategoriesOpen: false,
-  isDrawerOpen: false,
-  isMobileMenuOpen: false,
-  isMenuOpen: false
+    isLogged: false,
+    isCategoriesOpen: false,
+    isDrawerOpen: false,
+    isMobileMenuOpen: false,
+    isMenuOpen: false
 }
 
 
 export const navBarSlice = createSlice({
-  name: 'NavBar',
-  // `createSlice` will infer the state type from the `initialState` argument
-  initialState,
-  reducers: {
-    categoriesToggle: state => {
-      state.isCategoriesOpen= !state.isCategoriesOpen
+    name: 'NavBar',
+    // `createSlice` will infer the state type from the `initialState` argument
+    initialState,
+    reducers: {
+        categoriesToggle: state => {
+            state.isCategoriesOpen = !state.isCategoriesOpen
+        },
+        drawerToggle: state => {
+            state.isDrawerOpen = !state.isDrawerOpen
+        },
+        menuToggle: state => {
+            state.isMenuOpen = !state.isMenuOpen
+        },
+        mobileMenuToggle: state => {
+            state.isMobileMenuOpen = !state.isMobileMenuOpen
+        }
     },
-    drawerToggle: state => {
-      state.isDrawerOpen= !state.isDrawerOpen
-    },
-    menuToggle: state => {
-      state.isMenuOpen = !state.isMenuOpen
-    },
-    mobileMenuToggle: state => {
-      state.isMobileMenuOpen= !state.isMobileMenuOpen
+    extraReducers: builder => {
+        builder.addCase(checkLog.fulfilled, (state, action) => {
+            state.isLogged = action.payload.message.isLogged;
+        });
+        builder.addCase(checkLog.rejected,(state,action)=>{
+            state.isLogged = false;
+        });
     }
-  }
 })
 
-export const {drawerToggle,menuToggle,mobileMenuToggle,categoriesToggle} = navBarSlice.actions
+export const {drawerToggle, menuToggle, mobileMenuToggle, categoriesToggle} = navBarSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

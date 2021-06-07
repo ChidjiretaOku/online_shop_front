@@ -5,11 +5,14 @@ import loginFormReducer from './components/LoginForm/@slice';
 import registerFormReducer from './components/RegisterForm/@slice';
 import navBarReducer from './components/Navigation/@slice'
 import teaListReducer from './components/TeaList/@slice'
+import teaItemReducer from "./components/TeaItem/@slice";
 import categoryListReducer from './components/CategoryList/@slice'
 import orderFormReducer from "./components/OrderForm/@slice";
 import OrderReducer from "./components/Order/@slice"
 import cartReducer from "./components/Cart/@slice"
-import favoriteReduce from "./components/Favorite/@slice"
+import cartItemReducer from "./components/CartItem/@slice"
+import favoriteReducer from "./components/Favorite/@slice"
+import favoriteItemReducer from "./components/FavoriteItem/@slice"
 
 export const history = createBrowserHistory();
 
@@ -22,9 +25,12 @@ const reducer = {
   orderForm: orderFormReducer,
   NavBar: navBarReducer,
   teaList: teaListReducer,
+  teaItem: teaItemReducer,
   order: OrderReducer,
   cart: cartReducer,
-  favorite: favoriteReduce,
+  cartItem: cartItemReducer,
+  favorite: favoriteReducer,
+  favoriteItem: favoriteItemReducer,
   categoryList: categoryListReducer,
   // auth:
 }

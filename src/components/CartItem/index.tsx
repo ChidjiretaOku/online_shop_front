@@ -1,30 +1,44 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import React from 'react';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import {fetchAuthData, fetchData} from "../../utils/API";
-import {ListItem, ListItemText} from "@material-ui/core";
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import {TextField} from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {Simulate} from "react-dom/test-utils";
+import compositionStart = Simulate.compositionStart;
+import {useAppDispatch} from "../../hooks";
+import {clickDelete} from "./@slice"
 
-export interface ITeaItem {
+export interface ICartItem {
     "id": number,
     "name": string,
-    "description": string | null,
     "price": number,
     "count": number,
-    "photos": any,
 }
 
-const CartItem: React.FC<ITeaItem> = ({id, name, description, price, count,photos}) => {
+
+
+const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
+
+    const dispatch = useAppDispatch();
+    const handleDelete = () => {
+        dispatch(clickDelete(id))
+    }
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
-            card:{
-                width: "300%",
+            card: {
+                display: "flex",
+                alignItems:"center",
+                justifyContent: "space-around"
+            },
+            hrStyle: {
+                margin: "0",
+                padding: "0",
+                height: "0",
+                border: "none",
+                borderTop: "2px dotted #ddd",
             },
         }),
     )
@@ -32,30 +46,30 @@ const CartItem: React.FC<ITeaItem> = ({id, name, description, price, count,photo
     const classes = useStyles();
 
     return (
-        <ListItem className={classes.card}>
-            <ListItemText>
-                <Typography gutterBottom variant="h5" component="h2">
-                    {name}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    {description}
-                </Typography>
-                <Typography variant="h6" color="textPrimary" component="p">
-                    ${price}
-                </Typography>
-            </ListItemText>
-            <ListItemSecondaryAction>
-                <IconButton edge="end" aria-label="delete" onClick={() => {
-                    fetchAuthData('api/cart/del', {
-                        method: 'POST',
-                        headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})
-                    });
-                }}>
+        <li key={id}>
+            <div className={classes.card}>
+                <Typography>{name} </Typography>
+                <Typography>${price} </Typography>
+
+                <TextField
+                    id = "textfield"
+                    style={{maxWidth:"150px"}}
+                    defaultValue={count}
+                    type="number"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    variant="outlined"
+                />
+
+                <Typography>${price * count} </Typography>
+
+                <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
                     <DeleteIcon/>
                 </IconButton>
-            </ListItemSecondaryAction>
-        </ListItem>
+            </div>
+            <hr className={classes.hrStyle}/>
+        </li>
     );
 }
 

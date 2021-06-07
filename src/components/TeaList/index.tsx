@@ -1,6 +1,6 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import React, {useEffect} from 'react';
-import TeaItem, {ITeaItem} from "../TeaItem ";
+import TeaItem, {ITeaItem} from "../TeaItem";
 import {List, ListItem} from "@material-ui/core";
 import s from './TeaList.module.scss';
 import {getTeas} from "./@slice";
@@ -16,7 +16,7 @@ const TeaList: React.FC = () => {
 
     useEffect(() => {
         dispatch(getTeas());
-    }, [dispatch, teaList]);
+    }, []); //dispatch, teaList
 
     return (
         <div className={s.root}>

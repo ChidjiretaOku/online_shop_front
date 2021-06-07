@@ -43,7 +43,6 @@ const categoryListSlice = createSlice({
         builder.addCase(getCategories.rejected, (state) => {
         });
         builder.addCase(getCategories.fulfilled, (state, action) => {
-
             state.categoryList = action.payload
         });
     }
