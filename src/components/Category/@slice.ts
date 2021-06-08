@@ -26,7 +26,7 @@ export const getTeasByCategory = createAsyncThunk(
         const getOptions = {
             method: 'GET',
         };
-        let url = `http://localhost:3000/ainc/${data}/articles`;
+        let url = `api/ainc/${data}/articles`;
         const response = await fetchData(url, getOptions);
         return await (response.json()) as Array<ITeaItem>;
     })

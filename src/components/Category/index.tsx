@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
 import TeaItem from "../TeaItem";
-import s from './TeaList.module.scss';
+import s from '../TeaList/TeaList.module.scss';
 import {getTeasByCategory} from "./@slice";
 import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useHistory} from "react-router-dom";
 
 
 
@@ -10,11 +11,12 @@ const Category: React.FC<{c_id: number}> = ({c_id}) => {
 
     const dispatch = useAppDispatch();
 
+    const drawer = useAppSelector(state => state.NavBar.isDrawerOpen);
     const teaList = useAppSelector(state => state.category.teaList);
 
     useEffect(() => {
         dispatch(getTeasByCategory(c_id));
-    }, []); //dispatch, teaList
+    }, [drawer]);
 
     return (
         <div className={s.root}>

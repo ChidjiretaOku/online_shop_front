@@ -46,7 +46,7 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
     const buyCount = useAppSelector(state => state.teaItem.count);
 
     const [state, setState] = React.useState({
-        toBuyCount: ''
+        toBuyCount: 1
     })
 
 
@@ -83,7 +83,7 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
                     }}
                     variant="outlined"
                     value={state.toBuyCount}
-                    onChange={event=> setState({...state, toBuyCount: event.target.value})}
+                    onChange={event=> setState({...state, toBuyCount: Number(event.target.value)})}
                 />
                 <Button disabled={!count} size="small" color="secondary" variant="outlined" onClick={() => {
                 fetchAuthData('api/cart/add', {

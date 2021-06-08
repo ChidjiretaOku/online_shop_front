@@ -1,13 +1,13 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {fetchData} from "../../utils/API";
+import {fetchAuthData, fetchData} from "../../utils/API";
 
 // Define a type for the slice state
 interface NavBarState {
     isLogged: boolean
+    searchWord: string
     isCategoriesOpen: boolean
     isDrawerOpen: boolean
     isMenuOpen: boolean
-    isMobileMenuOpen: boolean
     categoryId: number
     categoryName: string
 }
@@ -19,14 +19,13 @@ interface Response {
     }
 }
 
-const checkLog = createAsyncThunk(
-    'login/auth',
-    async (data: {}, thunkAPI) => {
+export const checkLog = createAsyncThunk(
+    'login/check',
+    async (thunkAPI) => {
         const postOptions = {
-            body: JSON.stringify({}),
             method: 'POST',
         };
-        const response = await fetchData('api/login/', postOptions);
+        const response = await fetchAuthData('api/check/', postOptions);
         return await (response.json()) as Response;
     })
 
@@ -34,9 +33,9 @@ const checkLog = createAsyncThunk(
 // Define the initial state using that type
 const initialState: NavBarState = {
     isLogged: false,
+    searchWord: '',
     isCategoriesOpen: false,
     isDrawerOpen: false,
-    isMobileMenuOpen: false,
     isMenuOpen: false,
     categoryId: -1,
     categoryName: '',
@@ -61,9 +60,9 @@ export const navBarSlice = createSlice({
         menuToggle: state => {
             state.isMenuOpen = !state.isMenuOpen
         },
-        mobileMenuToggle: state => {
-            state.isMobileMenuOpen = !state.isMobileMenuOpen
-        }
+        changeSearch: (state, action: PayloadAction<string>) => {
+            state.searchWord = action.payload
+        },
     },
     extraReducers: builder => {
         builder.addCase(checkLog.fulfilled, (state, action) => {
@@ -75,7 +74,7 @@ export const navBarSlice = createSlice({
     }
 })
 
-export const {drawerToggle, menuToggle, setCategory, categoriesToggle} = navBarSlice.actions
+export const {drawerToggle, menuToggle, setCategory, categoriesToggle, changeSearch} = navBarSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

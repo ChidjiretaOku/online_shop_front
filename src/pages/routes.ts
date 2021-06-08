@@ -1,5 +1,6 @@
 enum Routes {
   CATEGORY = '/category',
+  SEARCH = '/search',
   ROOT = '/',
   LOGIN = '/login',
   REGISTER = '/register',

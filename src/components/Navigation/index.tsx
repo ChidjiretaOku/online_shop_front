@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {fade, makeStyles, Theme, createStyles, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -16,7 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {drawerToggle, menuToggle, categoriesToggle} from './@slice';
+import {drawerToggle, menuToggle, categoriesToggle, checkLog, changeSearch} from './@slice';
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
@@ -31,6 +31,7 @@ import Collapse from "@material-ui/core/Collapse";
 import {ExpandLess, ExpandMore, Favorite, FreeBreakfast, MenuOpen} from "@material-ui/icons";
 import Routes from "../../pages/routes";
 import CategoryList from "../CategoryList";
+import {getTeasByCategory} from "../Category/@slice";
 
 const drawerWidth = 240;
 
@@ -129,15 +130,33 @@ export default function NavigationSearchBar() {
     const isMenuOpen = useAppSelector(state => state.NavBar.isMenuOpen);
     const isCategoriesOpen = useAppSelector(state => state.NavBar.isCategoriesOpen);
     const isDrawerOpen = useAppSelector(state => state.NavBar.isDrawerOpen);
+    const isLogged = useAppSelector(state => state.NavBar.isLogged);
+    const search = useAppSelector(state => state.NavBar.searchWord);
+
+    useEffect(() => {
+        dispatch(checkLog());
+    }, [isMenuOpen]);
+
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
         dispatch(menuToggle());
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>) => {
+        if(event.key === 'Enter'){
+            history.push(Routes.SEARCH)
+        }
+    }
+
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        dispatch(menuToggle());
+    };
+
     const handleCategoriesClick = () => {
         dispatch(categoriesToggle());
-    }
+    };
 
     const renderPanelMenu = (
         <Drawer
@@ -169,11 +188,7 @@ export default function NavigationSearchBar() {
                     {isCategoriesOpen ? <ExpandLess/> : <ExpandMore/>}
                 </ListItem>
                 <Collapse in={isCategoriesOpen} timeout="auto" unmountOnExit>
-                    {/*<List component="div" disablePadding>*/}
-                        {/*<ListItem button className={classes.nested} onClick={() => dispatch(drawerToggle())}>*/}
-                            <CategoryList/>
-                        {/*</ListItem>*/}
-                    {/*</List>*/}
+                    <CategoryList/>
                 </Collapse>
                 <ListItem button onClick={() => {
                     history.push(Routes.FAVORITE)
@@ -188,14 +203,21 @@ export default function NavigationSearchBar() {
 
     const renderIfLogged = (
         <div>
-            <MenuItem onClick={() => history.push(Routes.LOGIN)}>Login</MenuItem>
-            <MenuItem onClick={() => history.push(Routes.LOGIN)}>Register</MenuItem>
+            <MenuItem onClick={() => {
+                history.push(Routes.LOGIN);
+                handleMenuClose();
+            }}>Login</MenuItem>
+            <MenuItem onClick={() => {
+                history.push(Routes.REGISTER);
+                handleMenuClose();
+            }}>Register</MenuItem>
         </div>
     );
 
     const renderIfNotLogged = (
         <MenuItem onClick={() => dispatch(menuToggle())}>Profile</MenuItem>
     );
+
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -207,7 +229,7 @@ export default function NavigationSearchBar() {
             transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMenuOpen}
         >
-
+            {isLogged ? renderIfLogged : renderIfNotLogged}
         </Menu>
     );
 
@@ -238,7 +260,12 @@ export default function NavigationSearchBar() {
                                 root: classes.inputRoot,
                                 input: classes.inputInput,
                             }}
-                            inputProps={{'aria-label': 'search'}}
+                            value={search}
+                            onChange={(event) => {
+                                dispatch(changeSearch(event.target.value))
+                            }
+                            }
+                            onKeyPress={handleKeyPress}
                         />
                     </div>
                     <div className={classes.grow}/>

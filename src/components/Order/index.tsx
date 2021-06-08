@@ -13,7 +13,7 @@ const Order: React.FC = () => {
 
     useEffect(() => {
         dispatch(getOrder());
-    }, [dispatch, ordersList]);
+    }, []);
 
     return (
         <div className={s.root}>

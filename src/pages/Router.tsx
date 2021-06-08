@@ -11,6 +11,7 @@ import {Profile} from "./Profile"
 import {cart} from "./Cart"
 import {favorite} from "./Favorite"
 import {Category} from "./Category";
+import {Search} from "./Search";
 
 export const Router: React.FC = () => {
   return(
@@ -26,6 +27,7 @@ export const Router: React.FC = () => {
           <Route exact path={Routes.FAVORITE} component={favorite}/>
           <Route exact path={Routes.TEST} component={TestPage}/>
           <Route exact path={Routes.CATEGORY} component={Category}/>
+          <Route exact path={Routes.SEARCH} component={Search}/>
         </Switch>
       </React.Suspense>
     </BrowserRouter>

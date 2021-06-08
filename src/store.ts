@@ -14,6 +14,7 @@ import cartItemReducer from "./components/CartItem/@slice"
 import favoriteReducer from "./components/Favorite/@slice"
 import favoriteItemReducer from "./components/FavoriteItem/@slice"
 import categoryReducer from "./components/Category/@slice"
+import searchReducer from "./components/Search/@slice"
 
 export const history = createBrowserHistory();
 
@@ -34,6 +35,7 @@ const reducer = {
   favoriteItem: favoriteItemReducer,
   categoryList: categoryListReducer,
   category: categoryReducer,
+  search: searchReducer,
   // auth:
 }
 
