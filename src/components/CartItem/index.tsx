@@ -55,6 +55,7 @@ const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
                     id = "textfield"
                     style={{maxWidth:"150px"}}
                     defaultValue={count}
+                    error={!count}
                     type="number"
                     InputLabelProps={{
                         shrink: true,

@@ -16,7 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {drawerToggle, menuToggle, mobileMenuToggle, categoriesToggle} from './@slice';
+import {drawerToggle, menuToggle, categoriesToggle} from './@slice';
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Divider from "@material-ui/core/Divider";
@@ -28,7 +28,7 @@ import {useHistory} from "react-router-dom";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
 import Collapse from "@material-ui/core/Collapse";
-import {ExpandLess, ExpandMore, Favorite, FreeBreakfast, MenuOpen, Spa} from "@material-ui/icons";
+import {ExpandLess, ExpandMore, Favorite, FreeBreakfast, MenuOpen} from "@material-ui/icons";
 import Routes from "../../pages/routes";
 import CategoryList from "../CategoryList";
 
@@ -156,23 +156,29 @@ export default function NavigationSearchBar() {
             </div>
             <Divider/>
             <List>
-                <ListItem button onClick={() => history.push(Routes.ROOT)}>
+                <ListItem button onClick={() => {
+                    history.push(Routes.ROOT);
+                    dispatch(drawerToggle());
+                }}>
                     <ListItemIcon><FreeBreakfast/></ListItemIcon>
                     <ListItemText primary={"Каталог"}/>
                 </ListItem>
                 <ListItem button onClick={handleCategoriesClick}>
                     <ListItemIcon><MenuOpen/></ListItemIcon>
                     <ListItemText primary={"Категории"}/>
-                    {isCategoriesOpen ? <ExpandLess /> : <ExpandMore />}
+                    {isCategoriesOpen ? <ExpandLess/> : <ExpandMore/>}
                 </ListItem>
                 <Collapse in={isCategoriesOpen} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                        <ListItem button className={classes.nested}>
+                    {/*<List component="div" disablePadding>*/}
+                        {/*<ListItem button className={classes.nested} onClick={() => dispatch(drawerToggle())}>*/}
                             <CategoryList/>
-                        </ListItem>
-                    </List>
+                        {/*</ListItem>*/}
+                    {/*</List>*/}
                 </Collapse>
-                <ListItem button onClick={() => history.push(Routes.FAVORITE)}>
+                <ListItem button onClick={() => {
+                    history.push(Routes.FAVORITE)
+                    dispatch(drawerToggle())
+                }}>
                     <ListItemIcon><Favorite/></ListItemIcon>
                     <ListItemText primary={"Избранное"}/>
                 </ListItem>
@@ -185,7 +191,11 @@ export default function NavigationSearchBar() {
             <MenuItem onClick={() => history.push(Routes.LOGIN)}>Login</MenuItem>
             <MenuItem onClick={() => history.push(Routes.LOGIN)}>Register</MenuItem>
         </div>
-    )
+    );
+
+    const renderIfNotLogged = (
+        <MenuItem onClick={() => dispatch(menuToggle())}>Profile</MenuItem>
+    );
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -197,7 +207,6 @@ export default function NavigationSearchBar() {
             transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMenuOpen}
         >
-            <MenuItem onClick={() => dispatch(menuToggle())}>Profile</MenuItem>
 
         </Menu>
     );
@@ -233,9 +242,11 @@ export default function NavigationSearchBar() {
                         />
                     </div>
                     <div className={classes.grow}/>
-                    <div >
+                    <div>
                         <IconButton color="inherit"
-                                    onClick={() => history.push(Routes.CART)}>
+                                    onClick={() => {
+                                        history.push(Routes.CART)
+                                    }}>
                             <ShoppingCartIcon/>
                         </IconButton>
                         <IconButton

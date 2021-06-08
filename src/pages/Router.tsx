@@ -10,6 +10,7 @@ import {Order} from "./Order"
 import {Profile} from "./Profile"
 import {cart} from "./Cart"
 import {favorite} from "./Favorite"
+import {Category} from "./Category";
 
 export const Router: React.FC = () => {
   return(
@@ -24,6 +25,7 @@ export const Router: React.FC = () => {
           <Route exact path={Routes.CART} component={cart}/>
           <Route exact path={Routes.FAVORITE} component={favorite}/>
           <Route exact path={Routes.TEST} component={TestPage}/>
+          <Route exact path={Routes.CATEGORY} component={Category}/>
         </Switch>
       </React.Suspense>
     </BrowserRouter>

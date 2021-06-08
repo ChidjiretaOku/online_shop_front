@@ -5,7 +5,9 @@ import {Spa} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import Routes from "../../pages/routes";
-import {Redirect} from "react-router-dom";
+import {Redirect, useHistory} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../hooks";
+import {drawerToggle, setCategory} from "../Navigation/@slice"
 
 export interface ICategoryItem {
     "id": number,
@@ -22,13 +24,21 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CategoryItem: React.FC<ICategoryItem> = ({id, name}) => {
     const classes = useStyles();
+    const dispatch = useAppDispatch()
+    const history = useHistory();
+
+
 
     return (
-        <ListItem button className={classes.nested}>
+        <ListItem button className={classes.nested} onClick={() => {
+            dispatch(setCategory({id, name}))
+            dispatch(drawerToggle())
+            history.push(Routes.CATEGORY)
+        }}>
             <ListItemIcon>
                 <Spa fontSize={"small"}/>
             </ListItemIcon>
-            <ListItemText primary={name} />
+            <ListItemText primary={name}/>
         </ListItem>
     );
 }

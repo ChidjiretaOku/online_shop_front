@@ -8,6 +8,8 @@ interface NavBarState {
     isDrawerOpen: boolean
     isMenuOpen: boolean
     isMobileMenuOpen: boolean
+    categoryId: number
+    categoryName: string
 }
 
 interface Response {
@@ -35,7 +37,9 @@ const initialState: NavBarState = {
     isCategoriesOpen: false,
     isDrawerOpen: false,
     isMobileMenuOpen: false,
-    isMenuOpen: false
+    isMenuOpen: false,
+    categoryId: -1,
+    categoryName: '',
 }
 
 
@@ -44,6 +48,10 @@ export const navBarSlice = createSlice({
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
+        setCategory: (state,action:PayloadAction<{id:number,name:string}>)=> {
+            state.categoryId = action.payload.id;
+            state.categoryName = action.payload.name;
+        },
         categoriesToggle: state => {
             state.isCategoriesOpen = !state.isCategoriesOpen
         },
@@ -67,7 +75,7 @@ export const navBarSlice = createSlice({
     }
 })
 
-export const {drawerToggle, menuToggle, mobileMenuToggle, categoriesToggle} = navBarSlice.actions
+export const {drawerToggle, menuToggle, setCategory, categoriesToggle} = navBarSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = (state: RootState) => state.counter.value

@@ -20,9 +20,10 @@ const CategoryList: React.FC = () => {
         <List>
             {
                 categoryList.map((item) =>
-                    <CategoryItem  id={item.id} name={item.name} />)}
-    </List>
+                    <CategoryItem id={item.id} name={item.name}/>)
+            }
+        </List>
 
-);
+    );
 }
-    export default CategoryList;
+export default CategoryList;
