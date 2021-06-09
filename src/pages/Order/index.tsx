@@ -3,11 +3,13 @@ import Nav from "../../components/Navigation";
 import OrderForm from '../../components/OrderForm';
 import {ThemeProvider} from "@material-ui/core";
 import theme from '../../themes/main'
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
+import BigHeaderBar from "../../components/BigHeader";
+
 
 export const Order: React.FC = () => {
 
-    const useStyles = makeStyles((theme: Theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
             root: {
                 display: 'flex',
@@ -22,11 +24,11 @@ export const Order: React.FC = () => {
         <div>
             <ThemeProvider theme={theme}>
                 <Nav/>
+                <BigHeaderBar message={"Оформление заказа"}/>
                 <div className={classes.root}>
-                <OrderForm/>
+                    <OrderForm/>
                 </div>
             </ThemeProvider>
         </div>
     );
-
 }

@@ -6,7 +6,9 @@ import theme from "../../themes/main";
 import {useAppSelector} from "../../hooks";
 import CategoryFC from "../../components/Category";
 
+
 export const Category: React.FC = () => {
+
     const categoryName = useAppSelector(state => state.NavBar.categoryName);
     const categoryId = useAppSelector(state => state.NavBar.categoryId);
 

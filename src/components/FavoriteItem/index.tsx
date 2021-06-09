@@ -1,15 +1,13 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {fetchAuthData, fetchData} from "../../utils/API";
 import IconButton from "@material-ui/core/IconButton";
-import {FavoriteBorder, ThumbDown} from "@material-ui/icons";
+import {ThumbDown} from "@material-ui/icons";
 import theme from "../../themes/main";
 import {clickDelete} from "./@slice";
 import {useAppDispatch} from "../../hooks";
@@ -23,9 +21,9 @@ export interface ITeaItem {
     "photos": any,
 }
 
-const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, photos}) => {
+const FavoriteItem: React.FC<ITeaItem> = ({id, name, description, price, count, photos}) => {
 
-    const useStyles = makeStyles((theme: Theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
             media: {
                 height: 140,
@@ -36,6 +34,7 @@ const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, p
         }),
     )
 
+    const img = `/api/download/${photos[0].photo}`
     const classes = useStyles();
     const dispatch = useAppDispatch();
     const handleDelete = () => {
@@ -47,7 +46,7 @@ const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, p
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    image="/static/images/cards/contemplative-reptile.jpg"
+                    image={img}
                     title={name}
                 />
                 <CardContent>
@@ -64,7 +63,7 @@ const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, p
             </CardActionArea>
             <CardActions>
                 <IconButton onClick={handleDelete}>
-                    <ThumbDown style={{color:theme.palette.secondary.dark}}/>
+                    <ThumbDown style={{color: theme.palette.secondary.dark}}/>
                 </IconButton>
 
             </CardActions>
@@ -72,4 +71,4 @@ const ArticleItem: React.FC<ITeaItem> = ({id, name, description, price, count, p
     );
 }
 
-export default ArticleItem;
+export default FavoriteItem;

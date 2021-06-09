@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchAuthData, fetchData} from "../../utils/API";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {fetchAuthData} from "../../utils/API";
 
 interface OrderState {
     isLoading: boolean
@@ -17,11 +17,6 @@ export interface IOrderItem {
     count: number,
     date: string,
     status: number
-}
-
-export interface Response {
-    type: string;
-    message: Array<IOrderItem>
 }
 
 const initialState: OrderState = {
@@ -44,10 +39,6 @@ const OrderSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getOrder.pending, (state) => {
-        });
-        builder.addCase(getOrder.rejected, (state) => {
-        });
         builder.addCase(getOrder.fulfilled, (state, action) => {
             state.orderList = action.payload
         });

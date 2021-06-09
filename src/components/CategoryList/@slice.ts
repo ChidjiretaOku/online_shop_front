@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {fetchData} from "../../utils/API";
 
 interface CategoriesState {
@@ -9,10 +9,6 @@ interface CategoriesState {
 export interface ICategoryItem {
     "id": number,
     "name": string,
-}
-export interface Response {
-    type: string;
-    message: Array<ICategoryItem>
 }
 
 const initialState: CategoriesState = {
@@ -30,18 +26,11 @@ export const getCategories = createAsyncThunk(
         return await (response.json()) as Array<ICategoryItem>;
     })
 
-
-
-
 const categoryListSlice = createSlice({
     name: 'categoryList',
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getCategories.pending, (state) => {
-        });
-        builder.addCase(getCategories.rejected, (state) => {
-        });
         builder.addCase(getCategories.fulfilled, (state, action) => {
             state.categoryList = action.payload
         });

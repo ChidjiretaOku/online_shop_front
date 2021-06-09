@@ -7,17 +7,21 @@ import {
     changeSurname,
     CreateOrder,
 } from './@slice';
-import {Button, TextField, Box} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
+import {useHistory} from "react-router-dom";
+import Routes from "../../pages/routes";
 
 
 const OrderForm: React.FC = () => {
+
     const first_name = useAppSelector(state => state.orderForm.first_name);
     const surname = useAppSelector(state => state.orderForm.surname);
     const phone = useAppSelector(state => state.orderForm.phone);
     const address = useAppSelector(state => state.orderForm.address);
 
     const dispatch = useAppDispatch();
+    const history = useHistory();
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -25,18 +29,12 @@ const OrderForm: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                borderRadius: '5px',
-                backgroundColor: theme.palette.primary.dark,
-                width: '30%',
-                padding: theme.spacing(6),
+                padding: theme.spacing(1),
                 '& .MuiTextField-root': {
                     margin: theme.spacing(1),
-                    width: "97%",
+                    width: '70ch',
                 },
             },
-            n: {
-                color: theme.palette.primary.contrastText,
-            }
         }),
     );
 
@@ -44,7 +42,7 @@ const OrderForm: React.FC = () => {
 
     return (
         <form className={classes.root} noValidate autoComplete="off">
-            <h2 className={classes.n}>Введите данные для заказа</h2>
+            <h2>Пожалуйста, заполните ваши данные</h2>
             <div>{status}</div>
             <div><TextField
                 id="standard-firstname-input"
@@ -86,6 +84,7 @@ const OrderForm: React.FC = () => {
                     onClick={
                         () => {
                             dispatch(CreateOrder({first_name, surname, phone, address}));
+                            history.push(Routes.PROFILE);
                         }}>Заказать</Button>
         </form>
 

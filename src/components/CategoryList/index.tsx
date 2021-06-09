@@ -1,16 +1,14 @@
 import React, {useEffect} from 'react';
-import {List, ListItem} from "@material-ui/core";
+import {List} from "@material-ui/core";
 import {useAppDispatch, useAppSelector} from "../../hooks";
-import CategoryItem, {ICategoryItem} from "../CategoryItem";
+import CategoryItem from "../CategoryItem";
 import {getCategories} from "./@slice";
 
 const CategoryList: React.FC = () => {
 
     const dispatch = useAppDispatch();
-
     const opened = useAppSelector(state => state.NavBar.isCategoriesOpen);
     const categoryList = useAppSelector(state => state.categoryList.categoryList);
-
 
     useEffect(() => {
         dispatch(getCategories());

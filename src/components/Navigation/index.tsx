@@ -5,16 +5,12 @@ import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {drawerToggle, menuToggle, categoriesToggle, checkLog, changeSearch} from './@slice';
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -23,7 +19,6 @@ import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
 import {useHistory} from "react-router-dom";
 import ListItemText from "@material-ui/core/ListItemText";
 import Drawer from "@material-ui/core/Drawer";
@@ -31,7 +26,6 @@ import Collapse from "@material-ui/core/Collapse";
 import {ExpandLess, ExpandMore, Favorite, FreeBreakfast, MenuOpen} from "@material-ui/icons";
 import Routes from "../../pages/routes";
 import CategoryList from "../CategoryList";
-import {getTeasByCategory} from "../Category/@slice";
 
 const drawerWidth = 240;
 
@@ -132,11 +126,11 @@ export default function NavigationSearchBar() {
     const isDrawerOpen = useAppSelector(state => state.NavBar.isDrawerOpen);
     const isLogged = useAppSelector(state => state.NavBar.isLogged);
     const search = useAppSelector(state => state.NavBar.searchWord);
+    const visibility = isLogged ? "visible" : "hidden";
 
     useEffect(() => {
         dispatch(checkLog());
     }, [isMenuOpen]);
-
 
     const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -144,7 +138,7 @@ export default function NavigationSearchBar() {
     };
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLElement>) => {
-        if(event.key === 'Enter'){
+        if (event.key === 'Enter') {
             history.push(Routes.SEARCH)
         }
     }
@@ -190,10 +184,12 @@ export default function NavigationSearchBar() {
                 <Collapse in={isCategoriesOpen} timeout="auto" unmountOnExit>
                     <CategoryList/>
                 </Collapse>
-                <ListItem button onClick={() => {
-                    history.push(Routes.FAVORITE)
-                    dispatch(drawerToggle())
-                }}>
+                <ListItem button
+                          style={{visibility: visibility}}
+                          onClick={() => {
+                              history.push(Routes.FAVORITE)
+                              dispatch(drawerToggle())
+                          }}>
                     <ListItemIcon><Favorite/></ListItemIcon>
                     <ListItemText primary={"Избранное"}/>
                 </ListItem>
@@ -201,22 +197,30 @@ export default function NavigationSearchBar() {
         </Drawer>
     );
 
-    const renderIfLogged = (
-        <div>
-            <MenuItem onClick={() => {
-                history.push(Routes.LOGIN);
-                handleMenuClose();
-            }}>Login</MenuItem>
-            <MenuItem onClick={() => {
-                history.push(Routes.REGISTER);
-                handleMenuClose();
-            }}>Register</MenuItem>
-        </div>
-    );
-
-    const renderIfNotLogged = (
-        <MenuItem onClick={() => dispatch(menuToggle())}>Profile</MenuItem>
-    );
+    const renderIfLogged = (isLogged: boolean) => {
+        if (!isLogged) {
+            return (
+                <>
+                    <MenuItem onClick={() => {
+                        history.push(Routes.LOGIN);
+                        handleMenuClose();
+                    }}>Login</MenuItem>
+                    <MenuItem onClick={() => {
+                        history.push(Routes.REGISTER);
+                        handleMenuClose();
+                    }}>Register</MenuItem>
+                </>)
+        } else {
+            return (
+                <MenuItem onClick=
+                              {() => {
+                                  history.push(Routes.PROFILE);
+                                  handleMenuClose();
+                              }
+                              }>Profile</MenuItem>
+            )
+        }
+    }
 
 
     const menuId = 'primary-search-account-menu';
@@ -229,7 +233,7 @@ export default function NavigationSearchBar() {
             transformOrigin={{vertical: 'top', horizontal: 'right'}}
             open={isMenuOpen}
         >
-            {isLogged ? renderIfLogged : renderIfNotLogged}
+            {renderIfLogged(isLogged)}
         </Menu>
     );
 
@@ -271,6 +275,7 @@ export default function NavigationSearchBar() {
                     <div className={classes.grow}/>
                     <div>
                         <IconButton color="inherit"
+                                    style={{visibility: visibility}}
                                     onClick={() => {
                                         history.push(Routes.CART)
                                     }}>

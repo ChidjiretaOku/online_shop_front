@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {fetchData} from '../../utils/API'
 
-// Define a type for the slice state
 export interface Form {
     email: string;
     password: string;
@@ -20,7 +19,6 @@ export interface Response {
     }
 }
 
-// Define the initial state using that type
 const initialState: LoginFormState = {
     email: '',
     password: '',
@@ -36,13 +34,10 @@ export const loginUser = createAsyncThunk(
         };
         const response = await fetchData('api/login/', postOptions);
         return await (response.json()) as Response;
-        // localStorage.setItem("token", res.message.token);
-
     })
 
 export const loginFormSlice = createSlice({
     name: 'login',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
         changeEmail: (state, action: PayloadAction<string>) => {
@@ -53,7 +48,7 @@ export const loginFormSlice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder.addCase(loginUser.pending, (state, action) => {
+        builder.addCase(loginUser.pending, (state) => {
             state.loading = 'pending'
         });
         builder.addCase(loginUser.fulfilled, (state, action) => {
@@ -66,9 +61,5 @@ export const loginFormSlice = createSlice({
 })
 
 export const {changeEmail, changePassword} = loginFormSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-//export const selectLogin = (state: RootState) => state.loginForm.login;
-//export const selectPassword = (state: RootState) => state.loginForm.password;
 
 export default loginFormSlice.reducer

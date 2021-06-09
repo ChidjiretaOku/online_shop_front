@@ -11,8 +11,7 @@ import {fetchAuthData} from "../../utils/API";
 import IconButton from "@material-ui/core/IconButton";
 import {Favorite} from "@material-ui/icons";
 import {TextField} from "@material-ui/core";
-import {changeCount} from "./@slice";
-import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useAppSelector} from "../../hooks";
 
 export interface ITeaItem {
     "id": number,
@@ -39,22 +38,19 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
         }),
     )
 
-    const dispatch = useAppDispatch();
-
     const classes = useStyles();
-
-    const buyCount = useAppSelector(state => state.teaItem.count);
-
+    const isLogged = useAppSelector(state => state.NavBar.isLogged);
+    const disableCart = !isLogged || !count;
+    const img = `/api/download/${photos[0].photo}`
     const [state, setState] = React.useState({
-        toBuyCount: 1
+        toBuyCount: 1,
     })
-
-
 
     return (
         <Card className={classes.card}>
             <CardActionArea>
                 <CardMedia
+                    image={img}
                     className={classes.media}
                     title={name}
                 />
@@ -77,30 +73,31 @@ const TeaItem: React.FC<ITeaItem> = ({id, name, description, price, count, photo
                 <TextField
                     label="Count"
                     type="number"
-                    // defaultValue={1}
                     InputLabelProps={{
                         shrink: true,
                     }}
                     variant="outlined"
                     value={state.toBuyCount}
-                    onChange={event=> setState({...state, toBuyCount: Number(event.target.value)})}
+                    onChange={event => setState({...state, toBuyCount: Number(event.target.value)})}
                 />
-                <Button disabled={!count} size="small" color="secondary" variant="outlined" onClick={() => {
-                fetchAuthData('api/cart/add', {
-                    method: 'POST',
-                    headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                    body: JSON.stringify({article_id: id,count: state.toBuyCount})
-                });
-            }}>
-                Add to cart
-            </Button>
-                <IconButton onClick={() => {
-                    fetchAuthData('api/favorites/follow', {
+                <Button disabled={disableCart} size="small" color="secondary" variant="outlined" onClick={() => {
+                    fetchAuthData('api/cart/add', {
                         method: 'POST',
                         headers: {'accept': '*/*', 'Content-Type': 'application/json'},
-                        body: JSON.stringify({article_id: id})
+                        body: JSON.stringify({article_id: id, count: state.toBuyCount})
                     });
                 }}>
+                    Add to cart
+                </Button>
+                <IconButton
+                    disabled={!isLogged}
+                    onClick={() => {
+                        fetchAuthData('api/favorites/follow', {
+                            method: 'POST',
+                            headers: {'accept': '*/*', 'Content-Type': 'application/json'},
+                            body: JSON.stringify({article_id: id})
+                        });
+                    }}>
                     <Favorite className={classes.fav}/>
                 </IconButton>
             </CardActions>

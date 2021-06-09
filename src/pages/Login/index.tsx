@@ -3,12 +3,13 @@ import Nav from "../../components/Navigation";
 import LoginForm from '../../components/LoginForm';
 import {ThemeProvider} from "@material-ui/core";
 import theme from '../../themes/main'
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
+import BigHeaderBar from "../../components/BigHeader";
 
 
 export const Login: React.FC = () => {
 
-    const useStyles = makeStyles((theme: Theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
             root: {
                 display: 'flex',
@@ -23,11 +24,11 @@ export const Login: React.FC = () => {
         <div>
             <ThemeProvider theme={theme}>
                 <Nav/>
+                <BigHeaderBar message={"Вход"}/>
                 <div className={classes.root}>
                     <LoginForm/>
                 </div>
             </ThemeProvider>
         </div>
     );
-
 }

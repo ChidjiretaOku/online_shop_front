@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchAuthData, fetchData} from "../../utils/API";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {fetchAuthData} from "../../utils/API";
 
 interface CartState {
     isLoading: boolean,
@@ -13,11 +13,6 @@ export interface ITeaItem {
     "price": number,
     "count": number,
     "photos": string
-}
-
-export interface Response {
-    type: string;
-    message: Array<ITeaItem>
 }
 
 const initialState: CartState = {
@@ -40,10 +35,6 @@ const CartSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getCart.pending, (state) => {
-        });
-        builder.addCase(getCart.rejected, (state) => {
-        });
         builder.addCase(getCart.fulfilled, (state, action) => {
             state.cartList = action.payload
         });

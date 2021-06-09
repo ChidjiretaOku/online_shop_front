@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {fetchData} from "../../utils/API";
 
 interface TeasState {
@@ -36,10 +36,6 @@ const teaListSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getTeas.pending, (state) => {
-        });
-        builder.addCase(getTeas.rejected, (state) => {
-        });
         builder.addCase(getTeas.fulfilled, (state, action) => {
             state.teaList = action.payload
         });

@@ -1,13 +1,11 @@
 import React, {useEffect} from 'react';
 import CartItem from "../CartItem";
-import s from './Cart.module.scss';
 import {useAppDispatch, useAppSelector} from "../../hooks";
 import {getCart} from "./@slice";
-import {fetchAuthData} from "../../utils/API";
 import Routes from "../../pages/routes";
 import {Button} from "@material-ui/core";
 import {useHistory} from "react-router-dom";
-import {createStyles, fade, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {isEmpty} from "lodash-es";
 
 const useStyles = makeStyles((theme: Theme) =>

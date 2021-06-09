@@ -6,6 +6,7 @@ import theme from "../../themes/main";
 import {useAppSelector} from "../../hooks";
 import SearchFC from "../../components/Search";
 
+
 export const Search: React.FC = () => {
     const searchName = useAppSelector(state => state.NavBar.searchWord);
 

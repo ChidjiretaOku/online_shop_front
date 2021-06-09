@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {changeEmail, changePassword, changeUsername ,registerUser} from './@slice';
+import {changeEmail, changePassword, changeUsername, registerUser} from './@slice';
 import {Button, TextField} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import Routes from "../../pages/routes";
@@ -8,6 +8,7 @@ import {Redirect} from "react-router-dom";
 
 
 const RegisterForm: React.FC = () => {
+
     const email = useAppSelector(state => state.registerForm.email);
     const username = useAppSelector(state => state.registerForm.username);
     const password = useAppSelector(state => state.registerForm.password);
@@ -27,19 +28,24 @@ const RegisterForm: React.FC = () => {
                     width: '70ch',
                 },
             },
+            badge: {
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: "10px",
+                padding: theme.spacing(1),
+            },
         }),
     );
 
     const classes = useStyles();
 
-    if (status == "succeeded"){
-        return <Redirect to={Routes.LOGIN} />
+    if (status == "succeeded") {
+        return <Redirect to={Routes.LOGIN}/>
     }
 
     return (
         <form className={classes.root} noValidate autoComplete="off"
               color='primary'>
-            <div>{status}</div>
+            <div className={classes.badge}>Status: {status}</div>
             <div><TextField
                 id="standard-username-input"
                 label="Username"

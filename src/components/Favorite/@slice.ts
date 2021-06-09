@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchAuthData, fetchData} from "../../utils/API";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {fetchAuthData} from "../../utils/API";
 
 interface FavoriteState {
     isLoading: boolean
@@ -13,11 +13,6 @@ export interface ITeaItem {
     "price": number,
     "count": number,
     "photos": string
-}
-
-export interface Response {
-    type: string;
-    message: Array<ITeaItem>
 }
 
 const initialState: FavoriteState = {
@@ -40,10 +35,6 @@ const FavoriteSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(getFavorite.pending, (state) => {
-        });
-        builder.addCase(getFavorite.rejected, (state) => {
-        });
         builder.addCase(getFavorite.fulfilled, (state, action) => {
             state.favoriteList = action.payload
         });

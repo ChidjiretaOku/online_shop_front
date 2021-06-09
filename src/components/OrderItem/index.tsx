@@ -1,11 +1,8 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import React from 'react';
 import Card from '@material-ui/core/Card';
 import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 export interface IOrderItem {
@@ -21,28 +18,22 @@ export interface IOrderItem {
     status: number
 }
 
-const OrderItem: React.FC<IOrderItem> = ({id, user_id , first_name, surname, phone, address, price, count, date, status}) => {
+const OrderItem: React.FC<IOrderItem> = ({
+                                             id,
+                                             user_id,
+                                             first_name,
+                                             surname,
+                                             phone,
+                                             address,
+                                             price,
+                                             count,
+                                             date,
+                                             status
+                                         }) => {
 
-    const useStyles = makeStyles((theme: Theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
-            root: {
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                width: "auto",
-                minWidth: "auto",
-                maxWidth: "60%",
-                borderRadius: "5px",
-                paddingBottom: theme.spacing(5),
-                paddingTop: theme.spacing(5),
-                backgroundColor: theme.palette.primary.dark,
-                color: theme.palette.primary.contrastText,
-                fontSize: "72",
-            },
-            media: {
-                height: 140,
-            },
-            card:{
+            card: {
                 width: "100%",
             },
         }),
@@ -54,11 +45,11 @@ const OrderItem: React.FC<IOrderItem> = ({id, user_id , first_name, surname, pho
         <Card className={classes.card}>
             <CardActionArea>
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
-                        {date}
+                    <Typography gutterBottom variant="inherit" component="p">
+                        Заказ №{id} от {date.substring(0, date.indexOf('T'))}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p">
-                        {price}
+                        ₽{price}
                     </Typography>
                     <Typography variant="h6" color="textPrimary" component="p">
                         {status}

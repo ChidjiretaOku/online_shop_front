@@ -1,7 +1,7 @@
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import React from 'react';
 
-const BigHeaderBar: React.FC<{message:string}> = ({message}) => {
+const BigHeaderBar: React.FC<{ message: string }> = ({message}) => {
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
@@ -12,7 +12,8 @@ const BigHeaderBar: React.FC<{message:string}> = ({message}) => {
                 width: "auto",
                 minWidth: "auto",
                 maxWidth: "100%",
-                borderRadius: "5px",
+                borderBottomLeftRadius: "5px",
+                borderBottomRightRadius: "5px",
                 paddingBottom: theme.spacing(5),
                 paddingTop: theme.spacing(5),
                 backgroundColor: theme.palette.primary.dark,
@@ -23,7 +24,6 @@ const BigHeaderBar: React.FC<{message:string}> = ({message}) => {
     )
 
     const classes = useStyles();
-
 
     return (
         <div className={classes.root}>

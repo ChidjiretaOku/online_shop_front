@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {fetchAuthData, fetchData} from "../../utils/API";
+import {fetchAuthData} from "../../utils/API";
 
-// Define a type for the slice state
 interface NavBarState {
     isLogged: boolean
     searchWord: string
@@ -15,7 +14,7 @@ interface NavBarState {
 interface Response {
     type: string;
     message: {
-        isLogged: boolean;
+        active: boolean;
     }
 }
 
@@ -29,8 +28,6 @@ export const checkLog = createAsyncThunk(
         return await (response.json()) as Response;
     })
 
-
-// Define the initial state using that type
 const initialState: NavBarState = {
     isLogged: false,
     searchWord: '',
@@ -41,13 +38,11 @@ const initialState: NavBarState = {
     categoryName: '',
 }
 
-
 export const navBarSlice = createSlice({
     name: 'NavBar',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
-        setCategory: (state,action:PayloadAction<{id:number,name:string}>)=> {
+        setCategory: (state, action: PayloadAction<{ id: number, name: string }>) => {
             state.categoryId = action.payload.id;
             state.categoryName = action.payload.name;
         },
@@ -66,17 +61,15 @@ export const navBarSlice = createSlice({
     },
     extraReducers: builder => {
         builder.addCase(checkLog.fulfilled, (state, action) => {
-            state.isLogged = action.payload.message.isLogged;
-        });
-        builder.addCase(checkLog.rejected,(state,action)=>{
-            state.isLogged = false;
+            if (action.payload.message.active) {
+                state.isLogged = action.payload.message.active;
+            } else {
+                state.isLogged = false
+            }
         });
     }
 })
 
 export const {drawerToggle, menuToggle, setCategory, categoriesToggle, changeSearch} = navBarSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-// export const selectCount = (state: RootState) => state.counter.value
 
 export default navBarSlice.reducer

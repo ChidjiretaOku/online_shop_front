@@ -1,15 +1,15 @@
 import * as React from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {changeEmail, changePassword, loginUser} from './@slice';
-import {Button, TextField, Box} from "@material-ui/core";
+import {Button, TextField} from "@material-ui/core";
 import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
-
+import {Redirect} from "react-router-dom";
+import Routes from "../../pages/routes";
 
 const LoginForm: React.FC = () => {
     const email = useAppSelector(state => state.loginForm.email);
     const password = useAppSelector(state => state.loginForm.password);
     const status = useAppSelector(state => state.loginForm.loading)
-
     const dispatch = useAppDispatch();
 
     const useStyles = makeStyles((theme: Theme) =>
@@ -18,47 +18,29 @@ const LoginForm: React.FC = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                // borderStyle: "solid",
-                // borderWidth: '2px',
-                borderRadius: '5px',
-                // borderColor: theme.palette.primary.dark,
-                backgroundColor: theme.palette.primary.dark,
-                width: '30%',
-                padding: theme.spacing(6),
+                padding: theme.spacing(1),
                 '& .MuiTextField-root': {
                     margin: theme.spacing(1),
-                    width: "97%",
+                    width: '70ch',
                 },
             },
-            n: {
-                color: theme.palette.primary.contrastText,
+            badge: {
+                backgroundColor: theme.palette.secondary.light,
+                borderRadius: "10px",
+                padding: theme.spacing(1),
             }
-            // box: {
-            //     borderColor: theme.palette.primary.dark,
-            //     borderStyle: "solid",
-            //     borderWidth: '2px',
-            //     borderRadius: '5px',
-            //     display: 'flex',
-            //     flexDirection: 'column',
-            //     width: '30%',
-            //     alignItems: 'center',
-            //     '& .MuiTextField-root': {
-            //         width: '97%',
-            //         margin: theme.spacing(1),
-            //     },
-            //     // '& .MuiButton-root':{
-            //     //     margin: theme.spacing(10),
-            //     // },
-            // },
         }),
     );
 
     const classes = useStyles();
 
+    if (status == "succeeded") {
+        return <Redirect to={Routes.ROOT}/>
+    }
+
     return (
         <form className={classes.root} noValidate autoComplete="off">
-            <h2 className={classes.n}>Sign in</h2>
-            <div>{status}</div>
+            <div className={classes.badge}>Status: {status}</div>
             <div><TextField
                 id="standard-email-input"
                 label="Email"

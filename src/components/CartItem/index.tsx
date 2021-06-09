@@ -1,12 +1,9 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles} from "@material-ui/core/styles";
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import {fetchAuthData, fetchData} from "../../utils/API";
 import {TextField} from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import {Simulate} from "react-dom/test-utils";
-import compositionStart = Simulate.compositionStart;
 import {useAppDispatch} from "../../hooks";
 import {clickDelete} from "./@slice"
 
@@ -17,8 +14,6 @@ export interface ICartItem {
     "count": number,
 }
 
-
-
 const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
 
     const dispatch = useAppDispatch();
@@ -26,11 +21,11 @@ const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
         dispatch(clickDelete(id))
     }
 
-    const useStyles = makeStyles((theme: Theme) =>
+    const useStyles = makeStyles(() =>
         createStyles({
             card: {
                 display: "flex",
-                alignItems:"center",
+                alignItems: "center",
                 justifyContent: "space-around"
             },
             hrStyle: {
@@ -50,10 +45,9 @@ const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
             <div className={classes.card}>
                 <Typography>{name} </Typography>
                 <Typography>${price} </Typography>
-
                 <TextField
-                    id = "textfield"
-                    style={{maxWidth:"150px"}}
+                    id="textfield"
+                    style={{maxWidth: "150px"}}
                     defaultValue={count}
                     error={!count}
                     type="number"
@@ -62,9 +56,7 @@ const CartItem: React.FC<ICartItem> = ({id, name, price, count}) => {
                     }}
                     variant="outlined"
                 />
-
                 <Typography>${price * count} </Typography>
-
                 <IconButton edge="end" aria-label="delete" onClick={handleDelete}>
                     <DeleteIcon/>
                 </IconButton>

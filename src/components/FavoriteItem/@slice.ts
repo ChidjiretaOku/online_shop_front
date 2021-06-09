@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {fetchAuthData, fetchData} from "../../utils/API";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {fetchAuthData} from "../../utils/API";
 
 interface FavoriteItemState {
     clickDelete: boolean,
@@ -13,7 +13,7 @@ const initialState: FavoriteItemState = {
 
 export const clickDelete = createAsyncThunk(
     'favorite/item',
-    async (data:number,thunkAPI) => {
+    async (data: number, thunkAPI) => {
         fetchAuthData('api/favorites/remove', {
             method: 'POST',
             headers: {'accept': '*/*', 'Content-Type': 'application/json'},
@@ -26,7 +26,7 @@ const FavoriteItemSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(clickDelete.fulfilled,(state)=>{
+        builder.addCase(clickDelete.fulfilled, (state) => {
             state.clickDelete = !state.clickDelete;
         });
     }

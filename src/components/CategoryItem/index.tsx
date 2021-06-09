@@ -1,12 +1,12 @@
-import {createStyles, fade, makeStyles, Theme} from "@material-ui/core/styles";
+import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import React from 'react';
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import {Spa} from "@material-ui/icons";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import Routes from "../../pages/routes";
-import {Redirect, useHistory} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../hooks";
+import {useHistory} from "react-router-dom";
+import {useAppDispatch} from "../../hooks";
 import {drawerToggle, setCategory} from "../Navigation/@slice"
 
 export interface ICategoryItem {
@@ -26,8 +26,6 @@ const CategoryItem: React.FC<ICategoryItem> = ({id, name}) => {
     const classes = useStyles();
     const dispatch = useAppDispatch()
     const history = useHistory();
-
-
 
     return (
         <ListItem button className={classes.nested} onClick={() => {

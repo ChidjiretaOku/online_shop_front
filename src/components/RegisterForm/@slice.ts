@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {fetchData} from '../../utils/API'
 
-// Define a type for the slice state
 export interface Form {
     email: string;
     username: string;
@@ -22,7 +21,6 @@ export interface Response {
     }
 }
 
-// Define the initial state using that type
 const initialState: RegisterFormState = {
     email: '',
     username: '',
@@ -43,7 +41,6 @@ export const registerUser = createAsyncThunk(
 
 export const registerFormSlice = createSlice({
     name: 'register',
-    // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
         changeUsername: (state, action: PayloadAction<string>) => {
@@ -57,10 +54,10 @@ export const registerFormSlice = createSlice({
         },
     },
     extraReducers: builder => {
-        builder.addCase(registerUser.pending, (state, action) => {
+        builder.addCase(registerUser.pending, (state) => {
             state.loading = 'pending'
         });
-        builder.addCase(registerUser.fulfilled, (state, action) => {
+        builder.addCase(registerUser.fulfilled, (state) => {
             state.loading = 'succeeded';
             state.password = '';
             state.email = '';
@@ -69,9 +66,5 @@ export const registerFormSlice = createSlice({
 })
 
 export const {changeEmail, changePassword, changeUsername} = registerFormSlice.actions;
-
-// Other code such as selectors can use the imported `RootState` type
-//export const selectLogin = (state: RootState) => state.loginForm.login;
-//export const selectPassword = (state: RootState) => state.loginForm.password;
 
 export default registerFormSlice.reducer

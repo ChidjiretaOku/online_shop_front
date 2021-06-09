@@ -21,27 +21,27 @@ export const history = createBrowserHistory();
 const middleware = getDefaultMiddleware({thunk: true})
 
 const reducer = {
-  router: connectRouter(history),
-  loginForm: loginFormReducer,
-  registerForm: registerFormReducer,
-  orderForm: orderFormReducer,
-  NavBar: navBarReducer,
-  teaList: teaListReducer,
-  teaItem: teaItemReducer,
-  order: OrderReducer,
-  cart: cartReducer,
-  cartItem: cartItemReducer,
-  favorite: favoriteReducer,
-  favoriteItem: favoriteItemReducer,
-  categoryList: categoryListReducer,
-  category: categoryReducer,
-  search: searchReducer,
-  // auth:
+    router: connectRouter(history),
+    loginForm: loginFormReducer,
+    registerForm: registerFormReducer,
+    orderForm: orderFormReducer,
+    NavBar: navBarReducer,
+    teaList: teaListReducer,
+    teaItem: teaItemReducer,
+    order: OrderReducer,
+    cart: cartReducer,
+    cartItem: cartItemReducer,
+    favorite: favoriteReducer,
+    favoriteItem: favoriteItemReducer,
+    categoryList: categoryListReducer,
+    category: categoryReducer,
+    search: searchReducer,
+    // auth:
 }
 
 export const store = configureStore({
-  reducer,
-  middleware
+    reducer,
+    middleware
 })
 
 export type RootState = ReturnType<typeof store.getState>
